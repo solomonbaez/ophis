@@ -14,11 +14,24 @@ def health(request) -> Response:
 
 class NotesView(APIView):
     def get(self, request) -> Response:
-        note = Note.objects.all()
-        if note:
-            note_data = NoteSerializer(note)
-            note_data = note_data.data if note_data else None
+        notes = Note.objects.all()
+        if notes:
+            notes_data = NoteSerializer(notes, many=True)
+            notes_data = notes_data.data if notes_data else None
 
-            return Response(request, note_data)
+            return Response(notes_data)
 
         return Response({"message": "No notes."})
+
+    def post(self, request) -> Response:
+        post_data = request.data
+
+        note = Note.objects.create(
+            title=post_data["title"],
+            content=post_data["content"],
+        )
+
+        note_data = NoteSerializer(note, many=False)
+        note_data = note_data.data
+
+        return Response(note_data)
