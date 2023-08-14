@@ -19,3 +19,15 @@ class NoteTests(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, {"message": "No notes."})
+
+    def test_post_note(self):
+        url = reverse("notes")
+
+        data = {"title": "testing", "content": "testing"}
+        response = self.client.post(url, data, format="json")
+
+        # GET returns a json list object -> unpack
+        [response_get] = self.client.get(url).json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, response_get)
