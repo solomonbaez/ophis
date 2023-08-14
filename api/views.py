@@ -35,3 +35,16 @@ class NotesView(APIView):
         note_data = note_data.data
 
         return Response(note_data)
+
+
+class NoteView(APIView):
+    def get(self, request, pk) -> Response:
+        try:
+            note = Note.objects.get(id=pk)
+        except:
+            return Response({"message": "No matching note."})
+
+        note_data = NoteSerializer(note, many=False)
+        note_data = note_data.data
+
+        return Response(note_data)
