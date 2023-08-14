@@ -12,6 +12,17 @@ def health(request) -> Response:
     return Response(HttpResponse.status_code)
 
 
+@api_view(["GET"])
+def overview(request) -> Response:
+    api_urls = {
+        "health": "health/",
+        "notes": "notes/",
+        "notes/id": "notes/id/",
+    }
+
+    return Response(api_urls)
+
+
 class NotesView(APIView):
     def get(self, request) -> Response:
         notes = Note.objects.all()
