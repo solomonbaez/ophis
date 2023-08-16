@@ -5,6 +5,7 @@ from .serializers import NoteSerializer
 
 
 class NoteTests(APITestCase):
+    #################### TESTING /NOTES ####################
     def test_health_check(self):
         url = reverse("health")
 
@@ -12,12 +13,14 @@ class NoteTests(APITestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_get_notes(self):
+    def test_get_notes_empty_db(self):
         url = reverse("notes")
 
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
+
+        # need to include post generation to ensure actual GET functionality
         self.assertEqual(response.data, {"message": "No notes."})
 
     def test_post_note(self):
@@ -31,3 +34,34 @@ class NoteTests(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, response_get)
+
+    #################### TESTING /NOTES/<str:pk> ####################
+    def test_get_note_no_match(self):
+        url = reverse("notes", args=[1])
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.data, {"message": "No matching note."})
+
+    def test_put_note(self):
+        self.test_post_note()
+
+        url = reverse("notes", args=[1])
+        post = self.client.get(url)
+
+        data = {"title": "testing (updated)", "content": "testing"}
+        response = self.client.put(url, data, format="json")
+
+        self.assertNotEqual(response.data, post.data)
+
+    def test_delete_note(self):
+        self.test_post_note()
+
+        url = reverse("notes", args=[1])
+        post = self.client.get(url)
+
+        self.client.delete(url)
+        response = self.client.get(url)
+
+        self.assertNotEqual(response.data, post.data)
+        self.assertEqual(response.data, {"message": "No matching note."})
