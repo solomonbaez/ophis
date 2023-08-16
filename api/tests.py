@@ -35,6 +35,7 @@ class NoteTests(APITestCase):
         # need to include post generation to ensure actual GET functionality
         self.assertEqual(response.data, {"message": "No notes."})
 
+    # fundamentally tests GET /notes and GET /notes/<str:pk>
     def test_get_notes(self):
         self.test_post_note()
         post_url = reverse("notes", args=[1])

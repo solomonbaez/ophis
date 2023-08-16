@@ -23,6 +23,7 @@ def overview(request) -> Response:
     return Response(api_urls)
 
 
+# All Notes 
 class NotesView(APIView):
     def get(self, request) -> Response:
         notes = Note.objects.all()
@@ -48,6 +49,7 @@ class NotesView(APIView):
         return Response(note_data)
 
 
+# Individual Notes
 class NoteView(APIView):
     def get(self, request, pk) -> Response:
         try:
