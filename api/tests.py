@@ -13,16 +13,6 @@ class NoteTests(APITestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_get_notes_empty_db(self):
-        url = reverse("notes")
-
-        response = self.client.get(url)
-
-        self.assertEqual(response.status_code, 200)
-
-        # need to include post generation to ensure actual GET functionality
-        self.assertEqual(response.data, {"message": "No notes."})
-
     def test_post_note(self):
         url = reverse("notes")
 
@@ -34,6 +24,26 @@ class NoteTests(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, response_get)
+
+    def test_get_notes_empty_db(self):
+        url = reverse("notes")
+
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+
+        # need to include post generation to ensure actual GET functionality
+        self.assertEqual(response.data, {"message": "No notes."})
+
+    def test_get_notes(self):
+        self.test_post_note()
+        post_url = reverse("notes", args=[1])
+        post = self.client.get(post_url)
+
+        url = reverse("notes")
+        [response_json] = self.client.get(url).json()
+
+        self.assertEqual(response_json, post.data)
 
     #################### TESTING /NOTES/<str:pk> ####################
     def test_get_note_no_match(self):
