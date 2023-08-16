@@ -23,7 +23,7 @@ def overview(request) -> Response:
     return Response(api_urls)
 
 
-# All Notes 
+# All Notes
 class NotesView(APIView):
     def get(self, request) -> Response:
         notes = Note.objects.all()
