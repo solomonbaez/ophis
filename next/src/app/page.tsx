@@ -3,20 +3,23 @@ import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { request } from "http";
 
-async function getNotes() {}
+interface Note {
+  title: string;
+  content: string;
+  updated: string;
+  created: string;
+}
 
 export default function Home() {
-  let [notes, setNotes] = useState([]);
+  let [notes, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/notes")
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: Note[]) => {
         setNotes(data);
       });
   }, []);
-
-  console.log("Notes:", notes);
 
   return (
     <main>
@@ -31,6 +34,10 @@ export default function Home() {
               {note.title}
               <br />
               {note.content}
+              <br />
+              {note.updated}
+              <br />
+              {note.created}
             </li>
           ))}
         </ul>
