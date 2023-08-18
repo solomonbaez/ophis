@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface Note {
   title: string;
@@ -24,6 +25,10 @@ export default function Note({ params }: { params: { id: string } }) {
       {note.title}
       <hr />
       {note.content}
+      <br />
+      <Link className="hover:text-blue-400 hover:underline" href="/">
+        ⬅ back
+      </Link>
     </div>
   );
 }

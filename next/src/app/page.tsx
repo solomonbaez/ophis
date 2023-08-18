@@ -31,7 +31,12 @@ export default function Home() {
         <ul>
           {notes.map((note, index) => (
             <li key={index}>
-              <Link href={`note/${note.id}`}>{note.title}</Link>
+              <Link
+                className="hover:text-blue-400 hover:underline"
+                href={`note/${note.id}`}
+              >
+                {note.title}
+              </Link>
               <br />
               {note.content}
               <br />
