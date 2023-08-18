@@ -20,6 +20,15 @@ export default function Note({ params }: { params: { id: string } }) {
       });
   }, []);
 
+  function deleteNote() {
+    fetch(`http://127.0.0.1:8000/api/notes/${params.id}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+
   return (
     <div>
       {note.title}
@@ -28,6 +37,13 @@ export default function Note({ params }: { params: { id: string } }) {
       <br />
       <Link className="hover:text-blue-400 hover:underline" href="/">
         ⬅ back
+      </Link>
+      <Link
+        className="hover:text-blue-400 hover:underline"
+        href="/"
+        onClick={deleteNote}
+      >
+        ❌ delete
       </Link>
     </div>
   );
