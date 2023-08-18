@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Note {
   title: string;
@@ -10,6 +11,8 @@ interface Note {
 }
 
 export default function Note({ params }: { params: { id: string } }) {
+  const router = useRouter();
+
   let [note, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
@@ -27,6 +30,7 @@ export default function Note({ params }: { params: { id: string } }) {
         "Content-Type": "application/json",
       },
     });
+    router.refresh();
   }
 
   return (

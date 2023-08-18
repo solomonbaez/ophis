@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Note {
   title: string;
@@ -28,6 +29,7 @@ export default function Home() {
       </Head>
       <div>
         <h1 className="text-center">NOTES</h1>
+        <hr />
         <ul>
           {notes.map((note, index) => (
             <li key={index}>
@@ -41,8 +43,7 @@ export default function Home() {
               {note.content}
               <br />
               {note.updated}
-              <br />
-              {note.created}
+              <hr />
             </li>
           ))}
         </ul>
