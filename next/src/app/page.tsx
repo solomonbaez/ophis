@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
+import Link from "next/link";
 
 interface Note {
   title: string;
@@ -30,7 +31,7 @@ export default function Home() {
         <ul>
           {notes.map((note, index) => (
             <li key={index}>
-              {note.title}
+              <Link href={`note/${note.id}`}>{note.title}</Link>
               <br />
               {note.content}
               <br />
