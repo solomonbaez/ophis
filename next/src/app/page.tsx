@@ -2,25 +2,27 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-interface Note {
-  title: string;
-  content: string;
-  updated: string;
-  created: string;
-}
+import { Note } from "../lib/Note";
+import { DeleteNote } from "../lib/DeleteNote";
 
 export default function Home() {
   let [notes, setNotes] = useState<Note[]>([]);
 
-  useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/notes/")
-      .then((res) => res.json())
-      .then((data: Note[]) => {
-        setNotes(data);
-      });
-  }, []);
+  function getNotes() {
+    useEffect(() => {
+      fetch("http://127.0.0.1:8000/api/notes/")
+        .then((res) => res.json())
+        .then((data: Note[]) => {
+          setNotes(data);
+        });
+    }, []);
+  }
+  getNotes();
+
+  const deleteHandler = (id: string) => {
+    DeleteNote(id);
+    // getNotes();
+  };
 
   return (
     <main>
@@ -43,6 +45,14 @@ export default function Home() {
               {note.content}
               <br />
               {note.updated}
+              <br />
+              <Link
+                className="hover:text-blue-400 hover:underline"
+                href="/"
+                onClick={() => deleteHandler(note.id)}
+              >
+                ❌ delete
+              </Link>
               <hr />
             </li>
           ))}
