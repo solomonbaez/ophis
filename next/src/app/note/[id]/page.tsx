@@ -1,18 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-interface Note {
-  title: string;
-  content: string;
-  updated: string;
-  created: string;
-}
+import { Note } from "../../../lib/Note";
+import { DeleteNote } from "../../../lib/DeleteNote";
 
 export default function Note({ params }: { params: { id: string } }) {
-  const router = useRouter();
-
   let [note, setNotes] = useState<Note[]>([]);
 
   useEffect(() => {
@@ -22,16 +14,6 @@ export default function Note({ params }: { params: { id: string } }) {
         setNotes(data);
       });
   }, []);
-
-  function deleteNote() {
-    fetch(`http://127.0.0.1:8000/api/notes/${params.id}/`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    router.refresh();
-  }
 
   return (
     <div>
@@ -45,7 +27,7 @@ export default function Note({ params }: { params: { id: string } }) {
       <Link
         className="hover:text-blue-400 hover:underline"
         href="/"
-        onClick={deleteNote}
+        onClick={DeleteNote}
       >
         ❌ delete
       </Link>
