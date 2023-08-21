@@ -8,20 +8,21 @@ import { DeleteNote } from "../lib/DeleteNote";
 export default function Home() {
   let [notes, setNotes] = useState<Note[]>([]);
 
-  function getNotes() {
-    useEffect(() => {
-      fetch("http://127.0.0.1:8000/api/notes/")
-        .then((res) => res.json())
-        .then((data: Note[]) => {
-          setNotes(data);
-        });
-    }, []);
-  }
-  getNotes();
+  useEffect(() => {
+    getNotes();
+  }, []);
+
+  const getNotes = () => {
+    fetch("http://127.0.0.1:8000/api/notes/")
+      .then((res) => res.json())
+      .then((data: Note[]) => {
+        setNotes(data);
+      });
+  };
 
   const deleteHandler = (id: string) => {
     DeleteNote(id);
-    // getNotes();
+    getNotes();
   };
 
   return (
