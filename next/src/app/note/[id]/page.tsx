@@ -7,13 +7,13 @@ import { DeleteNote } from "../../../lib/DeleteNote";
 
 export default function Note({ params }: { params: { id: string } }) {
   const router = useRouter();
-  let [note, setNotes] = useState<Note[]>([]);
+  let [note, setNote] = useState<Note[]>([]);
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/api/notes/${params.id}`)
       .then((res) => res.json())
       .then((data: Note[]) => {
-        setNotes(data);
+        setNote(data);
       });
   }, []);
 
@@ -26,7 +26,15 @@ export default function Note({ params }: { params: { id: string } }) {
     <div>
       {note.title}
       <hr />
-      {note.content}
+      <textarea
+        className="bg-black"
+        defaultValue={note?.content}
+        onChange={(event) => {
+          setNote({ ...note, content: event.target.value });
+        }}
+      >
+        {note?.content}
+      </textarea>
       <br />
       <Link className="hover:text-blue-400 hover:underline" href="/">
         ⬅ back
