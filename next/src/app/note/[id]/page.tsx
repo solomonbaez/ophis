@@ -19,7 +19,7 @@ export default function Note({ params }: { params: { id: string } }) {
   }, []);
 
   const changeHandler = (id: string) => {
-    let response = fetch(`http://127.0.0.1:8000/api/notes/${params.id}/`, {
+    let response = fetch(`http://127.0.0.1:8000/api/notes/${id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -47,19 +47,23 @@ export default function Note({ params }: { params: { id: string } }) {
         {note?.content}
       </textarea>
       <br />
-      <Link
-        className="hover:text-blue-400 hover:underline"
-        onClick={() => changeHandler(note.id)}
-        href="/"
-      >
-        ⬅ back
+      <Link onClick={() => changeHandler(note.id)} href="/">
+        <button className="hover:text-blue-400 hover:underline">back</button>
       </Link>
-      <Link
-        className="hover:text-blue-400 hover:underline"
-        href="/"
-        onClick={() => deleteHandler(note.id)}
-      >
-        ❌ delete
+      <br />
+      <Link href="/">
+        {params.id !== "create" ? (
+          <button
+            className="hover:text-red-600 hover:underline"
+            onClick={deleteHandler}
+          >
+            delete
+          </button>
+        ) : (
+          <button className="hover:text-green-400 hover:underline">
+            create
+          </button>
+        )}
       </Link>
     </div>
   );
