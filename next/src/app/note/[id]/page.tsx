@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Note } from "../../../lib/Note";
 import { DeleteNote } from "../../../lib/DeleteNote";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
 export default function Note({ params }: { params: { id: string } }) {
-  const router = useRouter();
+  const router: AppRouterInstance = useRouter();
   let [note, setNote] = useState<Note[]>([]);
 
   useEffect(() => {
@@ -46,7 +47,11 @@ export default function Note({ params }: { params: { id: string } }) {
         {note?.content}
       </textarea>
       <br />
-      <Link className="hover:text-blue-400 hover:underline" href="/">
+      <Link
+        className="hover:text-blue-400 hover:underline"
+        onClick={() => changeHandler(note.id)}
+        href="/"
+      >
         ⬅ back
       </Link>
       <Link
@@ -56,12 +61,6 @@ export default function Note({ params }: { params: { id: string } }) {
       >
         ❌ delete
       </Link>
-      <button
-        className="hover:text-blue-400 hover:underline"
-        onClick={() => changeHandler(note.id)}
-      >
-        ✅ save
-      </button>
     </div>
   );
 }
