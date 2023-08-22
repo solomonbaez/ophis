@@ -17,6 +17,16 @@ export default function Note({ params }: { params: { id: string } }) {
       });
   }, []);
 
+  const changeHandler = (id: string) => {
+    let response = fetch(`http://127.0.0.1:8000/api/notes/${params.id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(note),
+    });
+  };
+
   const deleteHandler = (id: string) => {
     DeleteNote(id);
     router.refresh();
@@ -46,6 +56,12 @@ export default function Note({ params }: { params: { id: string } }) {
       >
         ❌ delete
       </Link>
+      <button
+        className="hover:text-blue-400 hover:underline"
+        onClick={() => changeHandler(note.id)}
+      >
+        ✅ save
+      </button>
     </div>
   );
 }
