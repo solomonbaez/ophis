@@ -47,17 +47,20 @@ export default function Home() {
               <br />
               {note.updated}
               <br />
-              <Link
-                className="hover:text-blue-400 hover:underline"
-                href="/"
-                onClick={() => deleteHandler(note.id)}
-              >
-                ❌ delete
+              <Link href="/" onClick={() => deleteHandler(note.id)}>
+                <button className="text-red-500 hover:text-red-600 hover:underline">
+                  delete
+                </button>
               </Link>
               <hr />
             </li>
           ))}
         </ul>
+        <Link href="/note/create">
+          <button className="py-5 text-green-500 hover:text-green-600 hover:underline">
+            create
+          </button>
+        </Link>
       </div>
     </main>
   );

@@ -28,6 +28,17 @@ export default function Note({ params }: { params: { id: string } }) {
     });
   };
 
+  const createHandler = (post: Note) => {
+    post.title = "title";
+    let response = fetch(`http://127.0.0.1:8000/api/notes/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post),
+    });
+  };
+
   const deleteHandler = (id: string) => {
     DeleteNote(id);
     router.refresh();
@@ -60,7 +71,10 @@ export default function Note({ params }: { params: { id: string } }) {
             delete
           </button>
         ) : (
-          <button className="hover:text-green-400 hover:underline">
+          <button
+            className="hover:text-green-400 hover:underline"
+            onClick={() => createHandler(note)}
+          >
             create
           </button>
         )}
