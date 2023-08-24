@@ -31,8 +31,8 @@ export default function Note({ params }: { params: { id: string } }) {
   const createHandler = (post: Note) => {
     // extract first row of data
     let title: string = post.content.split("\n")[0];
-    if (title.length > 50) {
-      title = title.splice(0, 50);
+    if (title.length > 20) {
+      title = title.splice(0, 20);
     }
 
     post.title = title;

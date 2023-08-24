@@ -43,7 +43,9 @@ export default function Home() {
                 {note.title}
               </Link>
               <br />
-              {note.content}
+              {note.content.length < 40
+                ? note.content
+                : note.content.slice(0, 40)}
               <br />
               {note.updated}
               <br />
