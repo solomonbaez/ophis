@@ -29,7 +29,14 @@ export default function Note({ params }: { params: { id: string } }) {
   };
 
   const createHandler = (post: Note) => {
-    post.title = "title";
+    // extract first row of data
+    let title: string = post.content.split("\n")[0];
+    if (title.length > 50) {
+      title = title.splice(0, 50);
+    }
+
+    post.title = title;
+
     let response = fetch(`http://127.0.0.1:8000/api/notes/`, {
       method: "POST",
       headers: {
