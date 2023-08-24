@@ -30,7 +30,7 @@ export default function Home() {
       <Head>
         <title>NOTES</title>
       </Head>
-      <div>
+      <div className="px-10 py-5">
         <h1 className="text-center">NOTES</h1>
         <hr />
         <ul>

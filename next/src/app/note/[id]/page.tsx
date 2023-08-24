@@ -45,7 +45,7 @@ export default function Note({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div>
+    <div className="px-10 py-5">
       {note.title}
       <hr />
       <textarea
