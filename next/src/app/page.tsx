@@ -5,12 +5,44 @@ import Link from "next/link";
 import { Note } from "../lib/Note";
 import { DeleteNote } from "../lib/DeleteNote";
 
-export default function Home() {
-  let [notes, setNotes] = useState<Note[]>([]);
+interface NoteItemProps {
+  note: Note;
+}
 
-  useEffect(() => {
-    getNotes();
-  }, []);
+const NoteItem: React.FC<NoteItemProps> = ({ note }) => {
+  const truncatedContent =
+    note.content.length < 40 ? note.content : note.content.slice(0, 40);
+
+  const handleDelete = (id: string) => {
+    DeleteNote(id);
+    // getNotes();
+  };
+
+  return (
+    <li>
+      <Link href={`note/${note.id}`} passHref>
+        <button className="hover:text-blue-400 hover:underline">
+          {note.title}
+        </button>
+      </Link>
+      <br />
+      {truncatedContent}
+      <br />
+      {note.updated}
+      <br />
+      <button
+        className="text-red-500 hover:text-red-600 hover:underline"
+        onClick={() => handleDelete(note.id)}
+      >
+        delete
+      </button>
+      <hr />
+    </li>
+  );
+};
+
+const Home: React.FC = () => {
+  let [notes, setNotes] = useState<Note[]>([]);
 
   const getNotes = () => {
     fetch("http://127.0.0.1:8000/api/notes/")
@@ -20,10 +52,9 @@ export default function Home() {
       });
   };
 
-  const deleteHandler = (id: string) => {
-    DeleteNote(id);
+  useEffect(() => {
     getNotes();
-  };
+  }, []);
 
   return (
     <main>
@@ -35,30 +66,10 @@ export default function Home() {
         <hr />
         <ul>
           {notes.map((note, index) => (
-            <li key={index}>
-              <Link
-                className="hover:text-blue-400 hover:underline"
-                href={`note/${note.id}`}
-              >
-                {note.title}
-              </Link>
-              <br />
-              {note.content.length < 40
-                ? note.content
-                : note.content.slice(0, 40)}
-              <br />
-              {note.updated}
-              <br />
-              <Link href="/" onClick={() => deleteHandler(note.id)}>
-                <button className="text-red-500 hover:text-red-600 hover:underline">
-                  delete
-                </button>
-              </Link>
-              <hr />
-            </li>
+            <NoteItem key={index} note={note} />
           ))}
         </ul>
-        <Link href="/note/create">
+        <Link href="/note/create" passHref>
           <button className="py-5 text-green-500 hover:text-green-600 hover:underline">
             create
           </button>
@@ -66,4 +77,6 @@ export default function Home() {
       </div>
     </main>
   );
-}
+};
+
+export default Home;
