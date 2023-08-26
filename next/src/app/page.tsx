@@ -19,7 +19,7 @@ const NoteItem: React.FC<NoteItemProps> = ({ note }) => {
   };
 
   return (
-    <li>
+    <li className="px-2 py-2 mb-2 rounded-md border border-gray-300 bg-gray-600">
       <Link href={`note/${note.id}`} passHref>
         <button className="hover:text-blue-400 hover:underline">
           {note.title}
@@ -61,16 +61,15 @@ const Home: React.FC = () => {
       <Head>
         <title>NOTES</title>
       </Head>
-      <div className="px-10 py-5">
+      <div>
         <h1 className="text-center">NOTES</h1>
-        <hr />
         <ul>
           {notes.map((note, index) => (
             <NoteItem key={index} note={note} />
           ))}
         </ul>
         <Link href="/note/create" passHref>
-          <button className="py-5 text-green-500 hover:text-green-600 hover:underline">
+          <button className="px-2 py-5 text-green-500 hover:text-green-600 hover:underline">
             create
           </button>
         </Link>
