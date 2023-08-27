@@ -52,11 +52,11 @@ export default function Note({ params }: { params: { id: string } }) {
   };
 
   return (
-    <div className="bg-gray-600 rounded-e-sm">
+    <div className="px-2 py-2 mb-2 h-screen rounded-md border border-gray-300 bg-gray-600">
       {note.title}
       <hr />
       <textarea
-        className="bg-gray-600"
+        className="bg-gray-600 max-w-sm"
         defaultValue={note?.content}
         onChange={(event) => {
           setNote({ ...note, content: event.target.value });
