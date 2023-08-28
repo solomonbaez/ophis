@@ -15,6 +15,7 @@ export default function Note({ params }: { params: { id: string } }) {
       .then((res) => res.json())
       .then((data: Note[]) => {
         setNote(data);
+        textResize(data);
       });
   }, []);
 
@@ -51,12 +52,19 @@ export default function Note({ params }: { params: { id: string } }) {
     router.refresh();
   };
 
+  const textResize = (note: Note) => {
+    const noteContent: string = note.content;
+    const textArea = document.querySelector("textarea");
+    if (textArea) {
+      const lineCount: number = noteContent.split("\n").length;
+      textArea.style.height = `${lineCount * 50}px`;
+    }
+  };
+
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    event.preventDefault();
     const element = event.target;
-    element.style.height = "auto";
-    element.style.height = `${element.scrollHeight}px`;
     setNote({ ...note, content: element.value });
+    textResize(note);
   };
 
   return (
