@@ -55,7 +55,7 @@ export default function Note({ params }: { params: { id: string } }) {
   const textResize = (note: Note) => {
     const noteContent: string = note.content;
     const textArea = document.querySelector("textarea");
-    if (textArea) {
+    if (noteContent) {
       const lineCount: number = noteContent.split("\n").length;
       textArea.style.height = `${lineCount * 50}px`;
     }
