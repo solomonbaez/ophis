@@ -95,7 +95,7 @@ export default function Note({ params }: { params: { id: string } }) {
         {params.id !== "create" ? (
           <button
             className="hover:text-red-600 hover:underline"
-            onClick={deleteHandler}
+            onClick={() => deleteHandler(note.id)}
           >
             delete
           </button>
