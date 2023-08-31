@@ -15,7 +15,7 @@ export default function Note({ params }: { params: { id: string } }) {
       .then((res) => res.json())
       .then((data: Note[]) => {
         setNote(data);
-        textResize(data);
+        // textResize(data);
       });
   }, []);
 
@@ -52,27 +52,33 @@ export default function Note({ params }: { params: { id: string } }) {
     router.refresh();
   };
 
-  const textResize = (note: Note) => {
-    const noteContent: string = note.content;
-    const textArea = document.querySelector("textarea");
-    if (noteContent) {
-      const lineCount: number = noteContent.split("\n").length;
-      textArea.style.height = `${lineCount * 50}px`;
-    }
-  };
+  // const textResize = (note: Note) => {
+  //   const noteContent: string = note.content;
+  //   const textArea = document.querySelector("textarea");
+  //   if (noteContent && textArea) {
+  //     const lineCount: number = noteContent.split("\n").length;
+  //     const styleHeight: number = parseInt(textArea.style.height, 10);
+  //     console.log(textArea.style.height)
+  //     console.log(styleHeight);
+  //     console.log(lineCount);
+  //     if (10 < lineCount) {
+  //       textArea.style.height = `${lineCount * 20}px`;
+  //     }
+  //   }
+  // };
 
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const element = event.target;
     setNote({ ...note, content: element.value });
-    textResize(note);
+    // textResize(note);
   };
 
   return (
-    <div className="px-2 py-2 mb-2 h-1/2 rounded-md border border-gray-300 bg-gray-600">
-      {note.title}
+    <div className="px-2 py-2 mb-2 h-5/6 rounded-md border border-gray-300 bg-gray-600">
+      <h1 className="text-orange-300 font-bold text-lg mb-2">{note.title}</h1>
       <hr />
       <textarea
-        className="w-full h-auto bg-gray-600 resize-none"
+        className="h-3/4 w-full bg-gray-600 resize-none focus:outline-none"
         defaultValue={note?.content}
         onChange={(event) => {
           textHandler(event);
@@ -80,7 +86,7 @@ export default function Note({ params }: { params: { id: string } }) {
       >
         {note?.content}
       </textarea>
-      <br />
+      <hr />
       <Link onClick={() => changeHandler(note.id)} href="/">
         <button className="hover:text-blue-400 hover:underline">back</button>
       </Link>

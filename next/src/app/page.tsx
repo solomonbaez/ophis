@@ -43,7 +43,7 @@ const Home: React.FC = () => {
         <title>NOTES</title>
       </Head>
       <div>
-        <h1 className="text-center">NOTES</h1>
+        <h1 className="text-orange-300 font-bold text-lg text-center">NOTES</h1>
         <ul>
           {notes.map((note, index) => (
             <li
@@ -51,11 +51,11 @@ const Home: React.FC = () => {
               className="px-2 py-2 mb-2 rounded-md border border-gray-300 bg-gray-600"
             >
               <Link href={`note/${note.id}`} passHref>
-                <button className="hover:text-blue-400 hover:underline">
+                <button className="text-orange-300 font-bold text-lg hover:text-orange-200-400 hover:underline">
                   {note.title}
                 </button>
               </Link>
-              <br />
+              <hr />
               {truncatedContent(note.content)}
               <br />
               {note.updated}
