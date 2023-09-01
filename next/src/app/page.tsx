@@ -60,6 +60,8 @@ const Home: React.FC = () => {
               <br />
               {note.created}
               <br />
+              {note.ranking}
+              <br />
               <button
                 className="text-red-500 hover:text-red-600 hover:underline"
                 onClick={() => handleDelete(note.id)}
