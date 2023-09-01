@@ -58,7 +58,7 @@ const Home: React.FC = () => {
               <hr />
               {truncatedContent(note.content)}
               <br />
-              {note.updated}
+              {note.created}
               <br />
               <button
                 className="text-red-500 hover:text-red-600 hover:underline"

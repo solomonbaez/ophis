@@ -7,6 +7,7 @@ class Note(models.Model):
 
     updated = models.DateField(auto_now=True)
     created = models.DateField(auto_now_add=True)
+    ranking = models.IntegerField(default=0)
 
     # order by most recent update/creation
     class Meta:
