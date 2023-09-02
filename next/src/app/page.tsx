@@ -38,8 +38,31 @@ const Home: React.FC = () => {
     setNotes(updatedNotes);
   };
 
+  const changeHandler = (note: Note) => {
+    let response = fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(note),
+    });
+  };
+
   const onDragEnd = (result) => {
-    //
+    if (!result.destination) {
+      return;
+    }
+
+    const reorderedNotes = Array.from(notes);
+    const [movedNote] = reorderedNotes.splice(result.source.index, 1);
+    reorderedNotes.splice(result.destination.index, 0, movedNote);
+
+    reorderedNotes.forEach((note: Note, index: number) => {
+      note.ranking = index;
+      changeHandler(note);
+    });
+
+    setNotes(reorderedNotes);
   };
 
   return (
@@ -56,7 +79,11 @@ const Home: React.FC = () => {
             {(provided) => (
               <ul {...provided.droppableProps} ref={provided.innerRef}>
                 {notes.map((note, index) => (
-                  <Draggable key={note.id} draggableId={note.id} index={index}>
+                  <Draggable
+                    key={note.id}
+                    draggableId={note.id.toString()}
+                    index={index}
+                  >
                     {(provided) => (
                       <li
                         ref={provided.innerRef}
