@@ -19,7 +19,9 @@ export default function Note({ params }: { params: { id: string } }) {
       });
   }, []);
 
-  const changeHandler = (id: string) => {
+  const changeHandler = (post: Note) => {
+    post.ranking = post.ranking + 1;
+    const id = post.id;
     let response = fetch(`http://127.0.0.1:8000/api/notes/${id}/`, {
       method: "PUT",
       headers: {
@@ -87,7 +89,7 @@ export default function Note({ params }: { params: { id: string } }) {
         {note?.content}
       </textarea>
       <hr />
-      <Link onClick={() => changeHandler(note.id)} href="/">
+      <Link onClick={() => changeHandler(note)} href="/">
         <button className="hover:text-blue-400 hover:underline">back</button>
       </Link>
       <br />

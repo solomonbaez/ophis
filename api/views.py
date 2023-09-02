@@ -26,7 +26,7 @@ def overview(request) -> Response:
 # All Notes
 class NotesView(APIView):
     def get(self, request) -> Response:
-        notes = Note.objects.all()
+        notes = Note.objects.all().order_by("-ranking")
         if notes:
             notes_data = NoteSerializer(notes, many=True)
             notes_data = notes_data.data if notes_data else None
