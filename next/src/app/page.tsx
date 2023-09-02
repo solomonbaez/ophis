@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Note } from "../lib/Note";
 import { DeleteNote } from "../lib/DeleteNote";
 
@@ -37,48 +38,67 @@ const Home: React.FC = () => {
     setNotes(updatedNotes);
   };
 
+  const onDragEnd = (result) => {
+    //
+  };
+
   return (
-    <main>
-      <Head>
-        <title>NOTES</title>
-      </Head>
-      <div>
-        <h1 className="text-orange-300 font-bold text-lg text-center">NOTES</h1>
-        <ul>
-          {notes.map((note, index) => (
-            <li
-              key={index}
-              className="px-2 py-2 mb-2 rounded-md border border-gray-300 bg-gray-600"
-            >
-              <Link href={`note/${note.id}`} passHref>
-                <button className="text-orange-300 font-bold text-lg hover:text-orange-200-400 hover:underline">
-                  {note.title}
-                </button>
-              </Link>
-              <hr />
-              {truncatedContent(note.content)}
-              <br />
-              {note.created}
-              <br />
-              {note.ranking}
-              <br />
-              <button
-                className="text-red-500 hover:text-red-600 hover:underline"
-                onClick={() => handleDelete(note.id)}
-              >
-                delete
-              </button>
-              <hr />
-            </li>
-          ))}
-        </ul>
-        <Link href="/note/create" passHref>
-          <button className="px-2 py-5 text-green-500 hover:text-green-600 hover:underline">
-            create
-          </button>
-        </Link>
-      </div>
-    </main>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <main>
+        <Head>
+          <title>NOTES</title>
+        </Head>
+        <div>
+          <h1 className="text-orange-300 font-bold text-lg text-center">
+            NOTES
+          </h1>
+          <Droppable droppableId="notes">
+            {(provided) => (
+              <ul {...provided.droppableProps} ref={provided.innerRef}>
+                {notes.map((note, index) => (
+                  <Draggable key={note.id} draggableId={note.id} index={index}>
+                    {(provided) => (
+                      <li
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        className="px-2 py-2 mb-2 rounded-md border border-gray-300 bg-gray-600"
+                      >
+                        <Link href={`note/${note.id}`} passHref>
+                          <button className="text-orange-300 font-bold text-lg hover:text-orange-200-400 hover:underline">
+                            {note.title}
+                          </button>
+                        </Link>
+                        <hr />
+                        {truncatedContent(note.content)}
+                        <br />
+                        {note.created}
+                        <br />
+                        {note.ranking}
+                        <br />
+                        <button
+                          className="text-red-500 hover:text-red-600 hover:underline"
+                          onClick={() => handleDelete(note.id)}
+                        >
+                          delete
+                        </button>
+                        <hr />
+                      </li>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </ul>
+            )}
+          </Droppable>
+          <Link href="/note/create" passHref>
+            <button className="px-2 py-5 text-green-500 hover:text-green-600 hover:underline">
+              create
+            </button>
+          </Link>
+        </div>
+      </main>
+    </DragDropContext>
   );
 };
 
