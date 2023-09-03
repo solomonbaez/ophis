@@ -35,7 +35,7 @@ export default function Note({ params }: { params: { id: string } }) {
     // extract first row of data
     let title: string = post.content.split("\n")[0];
     if (title.length > 20) {
-      title = title.splice(0, 20);
+      title = title.slice(0, 30);
     }
 
     post.title = title;

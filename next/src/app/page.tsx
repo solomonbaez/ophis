@@ -23,7 +23,7 @@ const Home: React.FC = () => {
     fetch("http://127.0.0.1:8000/api/notes/")
       .then((res) => res.json())
       .then((data: Note[]) => {
-        setNotes(data);
+        handleRank(data);
       });
   };
 
@@ -38,7 +38,7 @@ const Home: React.FC = () => {
     setNotes(updatedNotes);
   };
 
-  const changeHandler = (note: Note) => {
+  const handleChange = (note: Note) => {
     let response = fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
       method: "PUT",
       headers: {
@@ -46,6 +46,15 @@ const Home: React.FC = () => {
       },
       body: JSON.stringify(note),
     });
+  };
+
+  const handleRank = (rankedNotes: Note[]) => {
+    rankedNotes.forEach((note: Note, index: number) => {
+      note.ranking = index + 1;
+      handleChange(note);
+    });
+
+    setNotes(rankedNotes);
   };
 
   const onDragEnd = (result) => {
@@ -57,12 +66,7 @@ const Home: React.FC = () => {
     const [movedNote] = reorderedNotes.splice(result.source.index, 1);
     reorderedNotes.splice(result.destination.index, 0, movedNote);
 
-    reorderedNotes.forEach((note: Note, index: number) => {
-      note.ranking = index;
-      changeHandler(note);
-    });
-
-    setNotes(reorderedNotes);
+    handleRank(reorderedNotes);
   };
 
   return (
@@ -100,8 +104,6 @@ const Home: React.FC = () => {
                         {truncatedContent(note.content)}
                         <br />
                         {note.created}
-                        <br />
-                        {note.ranking}
                         <br />
                         <button
                           className="text-red-500 hover:text-red-600 hover:underline"
