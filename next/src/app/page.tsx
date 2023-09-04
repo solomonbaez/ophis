@@ -81,12 +81,16 @@ const Home: React.FC = () => {
           <title>NOTES</title>
         </Head>
         <div>
-          <h1 className="text-orange-300 font-bold text-lg text-center">
+          <h1 className="text-pink-500 font-bold text-lg text-center mt-8 mb-4">
             NOTES
           </h1>
           <Droppable droppableId="notes">
             {(provided) => (
-              <ul {...provided.droppableProps} ref={provided.innerRef}>
+              <ul
+                className="space-y-4"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
                 {notes.map((note, index) => (
                   <Draggable
                     key={note.id}
@@ -95,28 +99,27 @@ const Home: React.FC = () => {
                   >
                     {(provided) => (
                       <li
+                        className="rounded-lg border border-pink-500 bg-pink-600 p-4"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className="px-2 py-2 mb-2 rounded-md border border-gray-300 bg-gray-600"
                       >
                         <Link href={`note/${note.id}`} passHref>
-                          <button className="text-orange-300 font-bold text-lg hover:text-orange-200-400 hover:underline">
+                          <button className="text-whitefont-bold text-lg hover:underline">
                             {note.title}
                           </button>
                         </Link>
-                        <hr />
-                        {truncatedContent(note.content)}
-                        <br />
-                        {note.created}
+                        <p>{truncatedContent(note.content)}</p>
+                        <p className="text-pink-300">
+                          <small>{note.created}</small>
+                        </p>
                         <br />
                         <button
-                          className="text-red-500 hover:text-red-600 hover:underline"
+                          className="text-blue-200 hover:text-blue-400"
                           onClick={() => handleDelete(note.id)}
                         >
                           delete
                         </button>
-                        <hr />
                       </li>
                     )}
                   </Draggable>
@@ -126,7 +129,7 @@ const Home: React.FC = () => {
             )}
           </Droppable>
           <Link href="/note/create" passHref>
-            <button className="px-2 py-5 text-green-500 hover:text-green-600 hover:underline">
+            <button className="px-4 py-5 text-green-400 hover:text-green-500">
               create
             </button>
           </Link>
