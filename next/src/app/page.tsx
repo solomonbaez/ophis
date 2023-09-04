@@ -15,7 +15,32 @@ interface NoteItemProps {
   note: Note;
 }
 
+interface NoteCreationProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const NewNoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
+  return (
+    <div
+      className={`modal ${
+        isOpen ? "fixed" : "hidden"
+      } inset-0 overflow-y-auto flex items-center justify-center z-10`}
+    >
+      <div className="modal-content bg-green-400">
+        <h2>Create New Note</h2>
+        <textarea placeholder="Enter your note here..." />
+        <div className="modal-actions mt-4 flex justify-end">
+          <button onClick={onClose}>Cancel</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Home: React.FC = () => {
+  const [isModalOpen, setModalOpen] = useState(false);
+
   let [notes, setNotes] = useState<Note[]>([]);
 
   const truncatedContent = (content: string) => {
@@ -133,6 +158,11 @@ const Home: React.FC = () => {
               create
             </button>
           </Link>
+          <button onClick={() => setModalOpen(true)}>Modal</button>
+          <NewNoteModal
+            isOpen={isModalOpen}
+            onClose={() => setModalOpen(false)}
+          />
         </div>
       </main>
     </DragDropContext>
