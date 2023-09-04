@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { Note } from "../lib/Note";
 import { DeleteNote } from "../lib/DeleteNote";
 
@@ -57,7 +62,7 @@ const Home: React.FC = () => {
     setNotes(rankedNotes);
   };
 
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }
