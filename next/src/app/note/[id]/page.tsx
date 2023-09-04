@@ -54,25 +54,25 @@ const NotePage: React.FC = ({ params }: { params: { id: string } }) => {
     router.refresh();
   };
 
-  // const textResize = (note: Note) => {
-  //   const noteContent: string = note.content;
-  //   const textArea = document.querySelector("textarea");
-  //   if (noteContent && textArea) {
-  //     const lineCount: number = noteContent.split("\n").length;
-  //     const styleHeight: number = parseInt(textArea.style.height, 10);
-  //     console.log(textArea.style.height)
-  //     console.log(styleHeight);
-  //     console.log(lineCount);
-  //     if (10 < lineCount) {
-  //       textArea.style.height = `${lineCount * 20}px`;
-  //     }
-  //   }
-  // };
+  const textResize = (note: Note) => {
+    const noteContent: string = note.content;
+    const textArea = document.querySelector("textarea");
+    if (noteContent && textArea) {
+      const lineCount: number = noteContent.split("\n").length;
+      const styleHeight: number = parseInt(textArea.style.height, 10);
+      console.log(textArea.style.height);
+      console.log(styleHeight);
+      console.log(lineCount);
+      if (10 < lineCount) {
+        textArea.style.height = `${lineCount * 10}px`;
+      }
+    }
+  };
 
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const element = event.target;
     setNote({ ...note, content: element.value });
-    // textResize(note);
+    textResize(note);
   };
 
   return (
