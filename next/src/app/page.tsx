@@ -44,7 +44,7 @@ const Home: React.FC = () => {
   };
 
   const handleChange = (note: Note) => {
-    let response = fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
+    let _response = fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

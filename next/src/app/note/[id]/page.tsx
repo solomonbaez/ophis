@@ -6,7 +6,7 @@ import { Note } from "../../../lib/Note";
 import { DeleteNote } from "../../../lib/DeleteNote";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
-export default function Note({ params }: { params: { id: string } }) {
+const NotePage: React.FC = ({ params }: { params: { id: string } }) => {
   const router: AppRouterInstance = useRouter();
   let [note, setNote] = useState<Note[]>([]);
 
@@ -20,9 +20,9 @@ export default function Note({ params }: { params: { id: string } }) {
   }, []);
 
   const changeHandler = (post: Note) => {
-    post.ranking = post.ranking + 1;
+    post.ranking = 0;
     const id = post.id;
-    let response = fetch(`http://127.0.0.1:8000/api/notes/${id}/`, {
+    let _response = fetch(`http://127.0.0.1:8000/api/notes/${id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default function Note({ params }: { params: { id: string } }) {
 
     post.title = title;
 
-    let response = fetch(`http://127.0.0.1:8000/api/notes/`, {
+    let _response = fetch(`http://127.0.0.1:8000/api/notes/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -112,4 +112,6 @@ export default function Note({ params }: { params: { id: string } }) {
       </Link>
     </div>
   );
-}
+};
+
+export default NotePage;
