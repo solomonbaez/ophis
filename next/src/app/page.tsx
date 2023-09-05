@@ -65,6 +65,11 @@ const Home: React.FC = () => {
     setNotes(rankedNotes);
   };
 
+  const handleModal = () => {
+    setModalOpen(!isModalOpen);
+    getNotes();
+  };
+
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -133,7 +138,7 @@ const Home: React.FC = () => {
           </Droppable>
           <button
             className="px-4 py-5 text-green-300 hover:text-green-400"
-            onClick={() => setModalOpen(!isModalOpen)}
+            onClick={() => handleModal()}
           >
             Modal
           </button>

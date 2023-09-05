@@ -18,26 +18,24 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
   }, []);
 
   const createHandler = (post: Note) => {
-    if (!post.content) {
-      onClose();
+    if (post.content && post.content.trim() !== "") {
+      // extract first row of data
+      let title: string = post.content.split("\n")[0];
+
+      if (title.length > 20) {
+        title = title.slice(0, 30);
+      }
+
+      post.title = title;
+
+      let _response = fetch(`http://127.0.0.1:8000/api/notes/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(post),
+      });
     }
-
-    // extract first row of data
-    let title: string = post.content.split("\n")[0];
-
-    if (title.length > 20) {
-      title = title.slice(0, 30);
-    }
-
-    post.title = title;
-
-    let _response = fetch(`http://127.0.0.1:8000/api/notes/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(post),
-    });
 
     onClose();
   };
