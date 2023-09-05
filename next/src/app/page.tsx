@@ -8,16 +8,16 @@ import {
   Draggable,
   DropResult,
 } from "react-beautiful-dnd";
-import { Note } from "../lib/Note";
-import { DeleteNote } from "../lib/DeleteNote";
-import NoteModal from "../lib/NoteModal";
+import { Note } from "../components/Note";
+import { DeleteNote } from "../components/DeleteNote";
+import NoteModal from "../components/NoteModal";
 
 interface NoteItemProps {
   note: Note;
 }
 
 const Home: React.FC = () => {
-  const [isModalOpen, setModalOpen] = useState(false);
+  let [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   let [notes, setNotes] = useState<Note[]>([]);
 
@@ -131,13 +131,8 @@ const Home: React.FC = () => {
               </ul>
             )}
           </Droppable>
-          <Link href="/note/create" passHref>
-            <button className="px-4 py-5 text-green-400 hover:text-green-500">
-              create
-            </button>
-          </Link>
-          <button onClick={() => setModalOpen(true)}>Modal</button>
-          <NoteModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+          <button className="px-4 py-5 text-green-300 hover:text-green-400" onClick={() => setModalOpen(!isModalOpen)}>Modal</button>
+          <NoteModal isOpen={isModalOpen} onClose={() => setModalOpen(!isModalOpen)} />
         </div>
       </main>
     </DragDropContext>

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Note } from "../../../lib/Note";
-import { DeleteNote } from "../../../lib/DeleteNote";
+import { Note } from "../../../components/Note";
+import { DeleteNote } from "../../../components/DeleteNote";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context";
 
 const NotePage: React.FC = ({ params }: { params: { id: string } }) => {
