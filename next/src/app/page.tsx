@@ -88,7 +88,7 @@ const Home: React.FC = () => {
         <Head>
           <title>NOTES</title>
         </Head>
-        <div>
+        <div className={`${isModalOpen ? "blur-sm" : ""}`}>
           <h1 className="text-pink-500 font-bold text-lg text-center mt-8 mb-4">
             NOTES
           </h1>
@@ -140,13 +140,13 @@ const Home: React.FC = () => {
             className="px-4 py-5 text-green-300 hover:text-green-400"
             onClick={() => handleModal()}
           >
-            Modal
+            create
           </button>
-          <NoteModal
-            isOpen={isModalOpen}
-            onClose={() => setModalOpen(!isModalOpen)}
-          />
         </div>
+        <NoteModal
+          isOpen={isModalOpen}
+          onClose={() => setModalOpen(!isModalOpen)}
+        />
       </main>
     </DragDropContext>
   );

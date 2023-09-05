@@ -63,7 +63,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
           className="modal-actions px-4 h-auto text-green-300 hover:text-green-400"
           onClick={() => createHandler(note)}
         >
-          create
+          done 💕
         </button>
       </div>
     </div>
