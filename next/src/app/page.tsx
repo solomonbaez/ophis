@@ -131,8 +131,16 @@ const Home: React.FC = () => {
               </ul>
             )}
           </Droppable>
-          <button className="px-4 py-5 text-green-300 hover:text-green-400" onClick={() => setModalOpen(!isModalOpen)}>Modal</button>
-          <NoteModal isOpen={isModalOpen} onClose={() => setModalOpen(!isModalOpen)} />
+          <button
+            className="px-4 py-5 text-green-300 hover:text-green-400"
+            onClick={() => setModalOpen(!isModalOpen)}
+          >
+            Modal
+          </button>
+          <NoteModal
+            isOpen={isModalOpen}
+            onClose={() => setModalOpen(!isModalOpen)}
+          />
         </div>
       </main>
     </DragDropContext>

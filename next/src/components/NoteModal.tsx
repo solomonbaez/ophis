@@ -18,8 +18,13 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
   }, []);
 
   const createHandler = (post: Note) => {
+    if (!post.content) {
+      onClose();
+    }
+
     // extract first row of data
     let title: string = post.content.split("\n")[0];
+
     if (title.length > 20) {
       title = title.slice(0, 30);
     }
@@ -34,7 +39,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
       body: JSON.stringify(post),
     });
 
-    onClose;
+    onClose();
   };
 
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
