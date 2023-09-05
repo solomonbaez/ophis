@@ -72,7 +72,7 @@ const NotePage: React.FC = ({ params }: { params: { id: string } }) => {
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const element = event.target;
     setNote({ ...note, content: element.value });
-    textResize(note);
+    // textResize(note);
   };
 
   return (
