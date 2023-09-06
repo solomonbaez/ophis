@@ -3,22 +3,16 @@ import { Note } from "./Note";
 
 interface NoteCreationProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (note?: Promise<void>) => void; // callback
 }
 
 const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
   let [note, setNote] = useState<Note>();
 
-  useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/notes/create`)
-      .then((res) => res.json())
-      .then((data: Note) => {
-        setNote(data);
-      });
-  }, []);
+  //     // }, []);
 
   const createHandler = (post: Note) => {
-    if (post.content && post.content.trim() !== "") {
+    if (post && post.content.trim() !== "") {
       // extract first row of data
       let title: string = post.content.split("\n")[0];
 
@@ -35,6 +29,14 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
         },
         body: JSON.stringify(post),
       });
+
+      let newpost = fetch(`http://127.0.0.1:8000/api/notes/create`)
+        .then((res) => res.json())
+        .then((data: Note) => {
+          setNote(data);
+        });
+
+      onClose(newpost);
     }
 
     onClose();

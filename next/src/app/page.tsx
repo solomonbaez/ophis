@@ -65,9 +65,17 @@ const Home: React.FC = () => {
     setNotes(rankedNotes);
   };
 
-  const handleModal = () => {
+  const openModal = () => {
+    setModalOpen(!isModalOpen);
+  };
+
+  const closeModal = (post: Note) => {
     setModalOpen(!isModalOpen);
     getNotes();
+    console.log(post);
+    const updatedNotes = Array.from(notes);
+    // updatedNotes.push(post)
+    setNotes(updatedNotes);
   };
 
   const onDragEnd = (result: DropResult) => {
@@ -89,7 +97,7 @@ const Home: React.FC = () => {
           <title>NOTES</title>
         </Head>
         <div className={`${isModalOpen ? "blur-sm" : ""}`}>
-          <h1 className="text-pink-500 font-bold text-lg text-center mt-8 mb-4">
+          <h1 className="text-pink-500 font-bold text-lg text-center mt-2 mb-4">
             NOTES
           </h1>
           <Droppable droppableId="notes">
@@ -121,6 +129,9 @@ const Home: React.FC = () => {
                         <p className="text-pink-300">
                           <small>{note.created}</small>
                         </p>
+                        <p>
+                          <small>{note.id}</small>
+                        </p>
                         <br />
                         <button
                           className="text-blue-200 hover:text-blue-400"
@@ -138,14 +149,14 @@ const Home: React.FC = () => {
           </Droppable>
           <button
             className="px-4 py-5 text-green-300 hover:text-green-400"
-            onClick={() => handleModal()}
+            onClick={() => openModal()}
           >
             create
           </button>
         </div>
         <NoteModal
           isOpen={isModalOpen}
-          onClose={() => setModalOpen(!isModalOpen)}
+          onClose={(newNote) => closeModal(newNote)}
         />
       </main>
     </DragDropContext>
