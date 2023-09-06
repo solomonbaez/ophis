@@ -9,10 +9,8 @@ interface NoteCreationProps {
 const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
   let [note, setNote] = useState<Note>();
 
-  //     // }, []);
-
   const createHandler = (post: Note) => {
-    if (post && post.content.trim() !== "") {
+    if (post && post.content && post.content.trim() !== "") {
       // extract first row of data
       let title: string = post.content.split("\n")[0];
 
@@ -36,6 +34,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
           setNote(data);
         });
 
+      setNote({ note, content: "" });
       onClose(newpost);
     }
 
@@ -57,6 +56,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
         <textarea
           className="px-4 placeholder-green-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
           placeholder="Enter your note 💕"
+          value={note?.content || ""}
           onChange={(event) => {
             textHandler(event);
           }}

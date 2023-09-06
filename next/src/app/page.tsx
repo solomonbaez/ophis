@@ -72,10 +72,6 @@ const Home: React.FC = () => {
   const closeModal = (post: Note) => {
     setModalOpen(!isModalOpen);
     getNotes();
-    console.log(post);
-    const updatedNotes = Array.from(notes);
-    // updatedNotes.push(post)
-    setNotes(updatedNotes);
   };
 
   const onDragEnd = (result: DropResult) => {
