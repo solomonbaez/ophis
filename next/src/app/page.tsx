@@ -93,7 +93,7 @@ const Home: React.FC = () => {
           <title>NOTES</title>
         </Head>
         <div className={`${isModalOpen ? "blur-sm" : ""}`}>
-          <h1 className="text-pink-500 font-bold text-lg text-center mt-2 mb-4">
+          <h1 className="text-gray-300 animate-pulse transition-colors duration-1000 hover:text-pink-300 font-bold text-lg text-center mt-2 mb-4">
             NOTES
           </h1>
           <Droppable droppableId="notes">
@@ -111,7 +111,7 @@ const Home: React.FC = () => {
                   >
                     {(provided) => (
                       <li
-                        className="rounded-lg border border-pink-500 bg-pink-600 p-4"
+                        className="rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700 p-4"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
@@ -125,12 +125,9 @@ const Home: React.FC = () => {
                         <p className="text-pink-300">
                           <small>{note.created}</small>
                         </p>
-                        <p>
-                          <small>{note.id}</small>
-                        </p>
                         <br />
                         <button
-                          className="text-blue-200 hover:text-blue-400"
+                          className="text-blue-200 hover:text-blue-100"
                           onClick={() => handleDelete(note.id)}
                         >
                           delete
@@ -144,7 +141,7 @@ const Home: React.FC = () => {
             )}
           </Droppable>
           <button
-            className="px-4 py-5 text-green-300 hover:text-green-400"
+            className="px-4 py-5 text-pink-300 hover:text-pink-200"
             onClick={() => openModal()}
           >
             create

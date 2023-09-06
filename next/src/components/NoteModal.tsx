@@ -52,20 +52,20 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
         isOpen ? "fixed" : "hidden"
       } inset-0 py-5 overflow-y-auto flex items-center justify-center z-10`}
     >
-      <div className="w-11/12 mx-auto pt-4 pb-10 h-5/6 rounded-lg border border-pink-500 bg-gray-500">
+      <div className="w-11/12 mx-auto pt-4 pb-10 h-5/6 rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700">
         <textarea
-          className="px-4 placeholder-green-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
-          placeholder="Enter your note 💕"
+          className="px-4 placeholder-pink-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
+          placeholder="Enter your note 🫧"
           value={note?.content || ""}
           onChange={(event) => {
             textHandler(event);
           }}
         />
         <button
-          className="modal-actions px-4 h-auto text-green-300 hover:text-green-400"
+          className="modal-actions px-4 h-auto text-pink-300 hover:text-pink-200"
           onClick={() => createHandler(note)}
         >
-          done 💕
+          done
         </button>
       </div>
     </div>
