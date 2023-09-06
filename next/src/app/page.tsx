@@ -47,7 +47,7 @@ const Home: React.FC = () => {
   };
 
   const handleChange = (note: Note) => {
-    let _response = fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
+    fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const Home: React.FC = () => {
     setModalOpen(!isModalOpen);
   };
 
-  const closeModal = (post: Note) => {
+  const closeModal = (post?: Note) => {
     setModalOpen(!isModalOpen);
     getNotes();
   };

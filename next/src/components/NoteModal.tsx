@@ -3,7 +3,7 @@ import { Note } from "./Note";
 
 interface NoteCreationProps {
   isOpen: boolean;
-  onClose: (note?: Promise<void>) => void; // callback
+  onClose: (note?: Note) => void; // callback
 }
 
 const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
@@ -20,7 +20,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
 
       post.title = title;
 
-      let _response = fetch(`http://127.0.0.1:8000/api/notes/`, {
+      fetch(`http://127.0.0.1:8000/api/notes/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,10 +35,10 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
         });
 
       setNote({ note, content: "" });
-      onClose(newpost);
+      onClose(note);
+    } else {
+      onClose();
     }
-
-    onClose();
   };
 
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
