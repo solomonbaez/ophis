@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Note } from "./Note";
 
 interface NoteCreationProps {
-  id: string;
+  post: Note;
   isOpen: boolean;
   onClose: (note?: Promise<void>) => void; // callback
 }
 
-const NoteModal: React.FC<NoteCreationProps> = ({ id, isOpen, onClose }) => {
-  let [note, setNote] = useState<Note>();
+const NoteModal: React.FC<NoteCreationProps> = ({ post, isOpen, onClose }) => {
+  let [note, setNote] = useState<Note>(post);
 
   const createHandler = (post: Note) => {
     if (post && post.content && post.content.trim() !== "") {
@@ -29,13 +29,12 @@ const NoteModal: React.FC<NoteCreationProps> = ({ id, isOpen, onClose }) => {
         body: JSON.stringify(post),
       });
 
-      let newpost = fetch(`http://127.0.0.1:8000/api/notes/${id}`)
+      let newpost = fetch(`http://127.0.0.1:8000/api/notes/${note.id}`)
         .then((res) => res.json())
         .then((data: Note) => {
           setNote(data);
         });
 
-      setNote({ note, content: "" });
       onClose(newpost);
     }
 
@@ -57,7 +56,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ id, isOpen, onClose }) => {
         <textarea
           className="px-4 placeholder-pink-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
           placeholder="Enter your note 🫧"
-          value={note?.content || ""}
+          value={note?.content}
           onChange={(event) => {
             textHandler(event);
           }}

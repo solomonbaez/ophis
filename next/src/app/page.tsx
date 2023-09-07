@@ -18,9 +18,8 @@ interface NoteItemProps {
 
 const Home: React.FC = () => {
   let [isModalOpen, setModalOpen] = useState<boolean>(false);
-  let [noteId, setNoteId] = useState<string>("");
-
   let [notes, setNotes] = useState<Note[]>([]);
+  let [note, setNote] = useState<Note>();
 
   const truncatedContent = (content: string) => {
     let truncated: string =
@@ -34,6 +33,16 @@ const Home: React.FC = () => {
       .then((data: Note[]) => {
         handleRank(data);
       });
+  };
+
+  const getNote = (id: string) => {
+    if (id && id !== "create") {
+      fetch(`http://127.0.0.1:8000/api/notes/${id}/`)
+        .then((res) => res.json())
+        .then((data: Note) => {
+          setNote(data);
+        });
+    }
   };
 
   useEffect(() => {
@@ -70,7 +79,7 @@ const Home: React.FC = () => {
 
   const openModal = (id: string) => {
     setModalOpen(!isModalOpen);
-    setNoteId(id);
+    getNote(id);
   };
 
   const closeModal = (post: Note) => {
@@ -120,14 +129,18 @@ const Home: React.FC = () => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <Link href={`note/${note.id}`} passHref>
-                          <button className="text-whitefont-bold text-lg hover:underline">
-                            {note.title}
-                          </button>
-                        </Link>
+                        <button
+                          className="text-whitefont-bold text-lg hover:underline"
+                          onClick={() => openModal(note.id.toString())}
+                        >
+                          {note.title}
+                        </button>
                         <p>{truncatedContent(note.content)}</p>
                         <p className="text-pink-300">
                           <small>{note.created}</small>
+                        </p>
+                        <p className="text-pink-300">
+                          <small>{note.id}</small>
                         </p>
                         <br />
                         <button
@@ -152,7 +165,7 @@ const Home: React.FC = () => {
           </button>
         </div>
         <NoteModal
-          id="create"
+          post={note}
           isOpen={isModalOpen}
           onClose={(newNote) => closeModal(newNote)}
         />
