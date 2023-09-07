@@ -12,33 +12,51 @@ const NoteModal: React.FC<NoteCreationProps> = ({
   isOpen,
   onClose,
 }) => {
-  let note: Note = initialNote;
+  let [note, setNote] = useState<Note>(initialNote);
 
-  const createHandler = (post: Note) => {
-    console.log(post?.id);
-    if (post && post.content && post.content.trim() !== "") {
-      let title: string = post.content.split("\n")[0];
+  const titleHandler = (content: string) => {
+    let title: string = content.split("\n")[0];
 
-      if (title.length > 20) {
-        title = title.slice(0, 30);
+    if (title.length > 20) {
+      title = title.slice(0, 30);
+    }
+
+    return title;
+  };
+
+  const noteHandler = (post: Note) => {
+    if (!initialNote.content) {
+      if (post && post.content && post.content.trim() !== "") {
+        post.title = titleHandler(post.content);
+
+        fetch(`http://127.0.0.1:8000/api/notes/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(post),
+        });
+
+        let newpost = fetch(`http://127.0.0.1:8000/api/notes/${note.id}`)
+          .then((res) => res.json())
+          .then((data: Note) => {
+            setNote(data);
+          });
+
+        onClose(newpost);
       }
+    } else {
+      initialNote.title = titleHandler(initialNote.content);
 
-      post.title = title;
-
-      fetch(`http://127.0.0.1:8000/api/notes/`, {
-        method: "POST",
+      fetch(`http://127.0.0.1:8000/api/notes/${initialNote.id}/`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(post),
+        body: JSON.stringify(initialNote),
       });
 
-      let newpost = fetch(`http://127.0.0.1:8000/api/notes/${note.id}`)
-        .then((res) => res.json())
-        .then((data: Note) => {
-          setNote(data);
-        });
-      onClose(newpost);
+      onClose();
     }
 
     onClose();
@@ -46,7 +64,11 @@ const NoteModal: React.FC<NoteCreationProps> = ({
 
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const element = event.target;
-    setNote({ note, content: element.value });
+    if (!initialNote.content) {
+      setNote({ note, content: element.value });
+    } else {
+      initialNote.content = element.value;
+    }
   };
 
   return (
@@ -59,14 +81,14 @@ const NoteModal: React.FC<NoteCreationProps> = ({
         <textarea
           className="px-4 placeholder-pink-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
           placeholder="Enter your note 🫧"
-          defaultValue={note?.content}
+          defaultValue={initialNote?.content}
           onChange={(event) => {
             textHandler(event);
           }}
         />
         <button
           className="modal-actions px-4 h-auto text-pink-300 hover:text-pink-200"
-          onClick={() => createHandler(note)}
+          onClick={() => noteHandler(note)}
         >
           done
         </button>
