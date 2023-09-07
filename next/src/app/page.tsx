@@ -19,7 +19,7 @@ interface NoteItemProps {
 const Home: React.FC = () => {
   let [isModalOpen, setModalOpen] = useState<boolean>(false);
   let [notes, setNotes] = useState<Note[]>([]);
-  let [note, setNote] = useState<Note>();
+  let [note, setNote] = useState<Note | undefined>();
 
   const truncatedContent = (content: string) => {
     let truncated: string =
@@ -36,13 +36,12 @@ const Home: React.FC = () => {
   };
 
   const getNote = (id: string) => {
-    if (id && id !== "create") {
-      fetch(`http://127.0.0.1:8000/api/notes/${id}/`)
-        .then((res) => res.json())
-        .then((data: Note) => {
-          setNote(data);
-        });
-    }
+    fetch(`http://127.0.0.1:8000/api/notes/${id}/`)
+      .then((res) => res.json())
+      .then((data: Note) => {
+        setNote(data);
+        openModal();
+      });
   };
 
   useEffect(() => {
@@ -57,7 +56,7 @@ const Home: React.FC = () => {
   };
 
   const handleChange = (note: Note) => {
-    let _response = fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
+    fetch(`http://127.0.0.1:8000/api/notes/${note.id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -77,9 +76,8 @@ const Home: React.FC = () => {
     }
   };
 
-  const openModal = (id: string) => {
+  const openModal = () => {
     setModalOpen(!isModalOpen);
-    getNote(id);
   };
 
   const closeModal = (post: Note) => {
@@ -131,7 +129,7 @@ const Home: React.FC = () => {
                       >
                         <button
                           className="text-whitefont-bold text-lg hover:underline"
-                          onClick={() => openModal(note.id.toString())}
+                          onClick={() => getNote(note.id)}
                         >
                           {note.title}
                         </button>
@@ -159,13 +157,13 @@ const Home: React.FC = () => {
           </Droppable>
           <button
             className="px-4 py-5 text-pink-300 hover:text-pink-200"
-            onClick={() => openModal("create")}
+            onClick={() => getNote("create")}
           >
             create
           </button>
         </div>
         <NoteModal
-          post={note}
+          initialNote={note}
           isOpen={isModalOpen}
           onClose={(newNote) => closeModal(newNote)}
         />

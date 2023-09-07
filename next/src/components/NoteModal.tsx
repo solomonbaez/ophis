@@ -2,15 +2,21 @@ import React, { useState, useEffect } from "react";
 import { Note } from "./Note";
 
 interface NoteCreationProps {
-  post: Note;
+  initialNote?: Note;
   isOpen: boolean;
-  onClose: (note?: Promise<void>) => void; // callback
+  onClose: (response?: Promise<void>) => void; // callback
 }
 
-const NoteModal: React.FC<NoteCreationProps> = ({ post, isOpen, onClose }) => {
-  let [note, setNote] = useState<Note>(post);
+const NoteModal: React.FC<NoteCreationProps> = ({
+  initialNote,
+  isOpen,
+  onClose,
+}) => {
+  let [note, setNote] = useState<Note | undefined>(initialNote);
+  console.log(note?.id);
 
   const createHandler = (post: Note) => {
+    console.log(post?.id);
     if (post && post.content && post.content.trim() !== "") {
       // extract first row of data
       let title: string = post.content.split("\n")[0];
@@ -21,7 +27,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ post, isOpen, onClose }) => {
 
       post.title = title;
 
-      let _response = fetch(`http://127.0.0.1:8000/api/notes/`, {
+      fetch(`http://127.0.0.1:8000/api/notes/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +40,6 @@ const NoteModal: React.FC<NoteCreationProps> = ({ post, isOpen, onClose }) => {
         .then((data: Note) => {
           setNote(data);
         });
-
       onClose(newpost);
     }
 
@@ -56,7 +61,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ post, isOpen, onClose }) => {
         <textarea
           className="px-4 placeholder-pink-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
           placeholder="Enter your note 🫧"
-          value={note?.content}
+          defaultValue={note?.content}
           onChange={(event) => {
             textHandler(event);
           }}
