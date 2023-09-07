@@ -124,10 +124,12 @@ const Home: React.FC = () => {
                         {...provided.dragHandleProps}
                       >
                         <button
-                          className="text-whitefont-bold text-lg hover:underline"
+                          className="text-white font-bold text-lg transition-colors hover:text-pink-100"
                           onClick={() => getNote(note.id)}
                         >
-                          {note.title}
+                          <h1 className="motion-safe:animate-bounce delay-500">
+                            {note.title}
+                          </h1>
                         </button>
                         <p>{truncatedContent(note.content)}</p>
                         <p className="text-pink-300">
