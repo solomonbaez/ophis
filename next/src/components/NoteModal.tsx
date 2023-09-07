@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Note } from "./Note";
 
 interface NoteCreationProps {
+  id: string;
   isOpen: boolean;
   onClose: (note?: Promise<void>) => void; // callback
 }
 
-const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
+const NoteModal: React.FC<NoteCreationProps> = ({ id, isOpen, onClose }) => {
   let [note, setNote] = useState<Note>();
 
   const createHandler = (post: Note) => {
@@ -28,7 +29,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({ isOpen, onClose }) => {
         body: JSON.stringify(post),
       });
 
-      let newpost = fetch(`http://127.0.0.1:8000/api/notes/create`)
+      let newpost = fetch(`http://127.0.0.1:8000/api/notes/${id}`)
         .then((res) => res.json())
         .then((data: Note) => {
           setNote(data);

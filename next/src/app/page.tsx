@@ -18,6 +18,7 @@ interface NoteItemProps {
 
 const Home: React.FC = () => {
   let [isModalOpen, setModalOpen] = useState<boolean>(false);
+  let [noteId, setNoteId] = useState<string>("");
 
   let [notes, setNotes] = useState<Note[]>([]);
 
@@ -57,16 +58,19 @@ const Home: React.FC = () => {
   };
 
   const handleRank = (rankedNotes: Note[]) => {
-    rankedNotes.forEach((note: Note, index: number) => {
-      note.ranking = index + 1;
-      handleChange(note);
-    });
+    if (rankedNotes) {
+      rankedNotes.forEach((note: Note, index: number) => {
+        note.ranking = index + 1;
+        handleChange(note);
+      });
 
-    setNotes(rankedNotes);
+      setNotes(rankedNotes);
+    }
   };
 
-  const openModal = () => {
+  const openModal = (id: string) => {
     setModalOpen(!isModalOpen);
+    setNoteId(id);
   };
 
   const closeModal = (post: Note) => {
@@ -142,12 +146,13 @@ const Home: React.FC = () => {
           </Droppable>
           <button
             className="px-4 py-5 text-pink-300 hover:text-pink-200"
-            onClick={() => openModal()}
+            onClick={() => openModal("create")}
           >
             create
           </button>
         </div>
         <NoteModal
+          id="create"
           isOpen={isModalOpen}
           onClose={(newNote) => closeModal(newNote)}
         />
