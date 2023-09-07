@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Note } from "./Note";
 
 interface NoteCreationProps {
-  initialNote?: Note;
+  initialNote: Note;
   isOpen: boolean;
   onClose: (response?: Promise<void>) => void; // callback
 }
@@ -12,13 +12,11 @@ const NoteModal: React.FC<NoteCreationProps> = ({
   isOpen,
   onClose,
 }) => {
-  let [note, setNote] = useState<Note | undefined>(initialNote);
-  console.log(note?.id);
+  let note: Note = initialNote;
 
   const createHandler = (post: Note) => {
     console.log(post?.id);
     if (post && post.content && post.content.trim() !== "") {
-      // extract first row of data
       let title: string = post.content.split("\n")[0];
 
       if (title.length > 20) {

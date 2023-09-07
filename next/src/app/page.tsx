@@ -19,7 +19,7 @@ interface NoteItemProps {
 const Home: React.FC = () => {
   let [isModalOpen, setModalOpen] = useState<boolean>(false);
   let [notes, setNotes] = useState<Note[]>([]);
-  let [note, setNote] = useState<Note | undefined>();
+  let [note, setNote] = useState<Note>(notes[0]);
 
   const truncatedContent = (content: string) => {
     let truncated: string =
@@ -40,7 +40,7 @@ const Home: React.FC = () => {
       .then((res) => res.json())
       .then((data: Note) => {
         setNote(data);
-        openModal();
+        setModalOpen(!isModalOpen);
       });
   };
 
@@ -74,10 +74,6 @@ const Home: React.FC = () => {
 
       setNotes(rankedNotes);
     }
-  };
-
-  const openModal = () => {
-    setModalOpen(!isModalOpen);
   };
 
   const closeModal = (post: Note) => {
