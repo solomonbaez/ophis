@@ -100,10 +100,10 @@ const NoteModal: React.FC<NoteCreationProps> = ({
     >
       <div
         ref={modalRef}
-        className="w-11/12 mx-auto pt-4 pb-10 h-5/6 rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700"
+        className="w-11/12 mx-auto pt-4 pb-10 h-5/6 rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700 transition-colors delay-50 hover:bg-gray-800"
       >
         <textarea
-          className="px-4 placeholder-pink-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
+          className="px-4 placeholder-pink-300 text-white h-full w-full bg-inherit resize-none focus:outline-none transition"
           placeholder="Enter your note 🫧"
           defaultValue={initialNote?.content}
           onChange={(event) => {
