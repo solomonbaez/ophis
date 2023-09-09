@@ -65,7 +65,7 @@ const NoteModal: React.FC<NoteCreationProps> = ({
   const textHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const element = event.target;
     if (!initialNote.content) {
-      setNote({ note, content: element.value });
+      setNote({ ...note, content: element.value });
     } else {
       initialNote.content = element.value;
     }

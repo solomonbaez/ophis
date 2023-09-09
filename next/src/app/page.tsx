@@ -39,6 +39,16 @@ const Home: React.FC = () => {
     fetch(`http://127.0.0.1:8000/api/notes/${id}/`)
       .then((res) => res.json())
       .then((data: Note) => {
+        if (id === "create") {
+          data = {
+            id: "",
+            title: "",
+            content: "",
+            updated: "",
+            created: "",
+            ranking: 0,
+          };
+        }
         setNote(data);
         setModalOpen(!isModalOpen);
       });
@@ -76,7 +86,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const closeModal = (post: Note) => {
+  const closeModal = (_response: Promise<void>) => {
     setModalOpen(!isModalOpen);
     getNotes();
   };
@@ -118,18 +128,16 @@ const Home: React.FC = () => {
                   >
                     {(provided) => (
                       <li
-                        className="rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700 p-4"
+                        className="rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700 p-4 transition-colors delay-50 hover:bg-gray-900"
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
                         <button
-                          className="text-white font-bold text-lg transition-colors hover:text-pink-100"
+                          className="text-white font-bold text-lg transition-colors hover:text-pink-100 hover:underline"
                           onClick={() => getNote(note.id)}
                         >
-                          <h1 className="motion-safe:animate-bounce delay-500">
-                            {note.title}
-                          </h1>
+                          {note.title}
                         </button>
                         <p>{truncatedContent(note.content)}</p>
                         <p className="text-pink-300">
