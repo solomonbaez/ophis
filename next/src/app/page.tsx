@@ -39,16 +39,6 @@ const Home: React.FC = () => {
     fetch(`http://127.0.0.1:8000/api/notes/${id}/`)
       .then((res) => res.json())
       .then((data: Note) => {
-        if (id === "create") {
-          data = {
-            id: "",
-            title: "",
-            content: "",
-            updated: "",
-            created: "",
-            ranking: 0,
-          };
-        }
         setNote(data);
         setModalOpen(!isModalOpen);
       });

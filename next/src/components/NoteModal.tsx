@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Note } from "./Note";
 
 interface NoteCreationProps {
@@ -13,6 +13,27 @@ const NoteModal: React.FC<NoteCreationProps> = ({
   onClose,
 }) => {
   let [note, setNote] = useState<Note>(initialNote);
+  const modalRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, onClose]);
 
   const titleHandler = (content: string) => {
     let title: string = content.split("\n")[0];
@@ -77,7 +98,10 @@ const NoteModal: React.FC<NoteCreationProps> = ({
         isOpen ? "fixed" : "hidden"
       } inset-0 py-5 overflow-y-auto flex items-center justify-center z-10`}
     >
-      <div className="w-11/12 mx-auto pt-4 pb-10 h-5/6 rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700">
+      <div
+        ref={modalRef}
+        className="w-11/12 mx-auto pt-4 pb-10 h-5/6 rounded-lg border border-gray-400 bg-gray-500 shadow-lg shadow-gray-700"
+      >
         <textarea
           className="px-4 placeholder-pink-300 text-white h-full w-full bg-gray-500 resize-none focus:outline-none"
           placeholder="Enter your note 🫧"
